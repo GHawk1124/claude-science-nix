@@ -36,9 +36,10 @@ readonly RETRY_BASE_DELAY=2
 # helpers
 # ---------------------------------------------------------------------------
 
-log_info()  { echo -e "${GREEN}[INFO]${NC}  $1"; }
-log_warn()  { echo -e "${YELLOW}[WARN]${NC}  $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+# All log functions write to stderr so they never pollute captured stdout.
+log_info()  { echo -e "${GREEN}[INFO]${NC}  $1" >&2; }
+log_warn()  { echo -e "${YELLOW}[WARN]${NC}  $1" >&2; }
+log_error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
 
 retry() {
   local max_attempts="$1" base_delay="$2"

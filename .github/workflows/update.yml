@@ -1,0 +1,53 @@
+name: Auto-update Claude Science
+
+on:
+  schedule:
+    # Run every 30 minutes to catch new releases quickly.
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Check for updates
+        id: check
+        run: |
+          if scripts/update.sh --check; then
+            echo "No update available."
+            echo "update_available=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "update_available=true" >> "$GITHUB_OUTPUT"
+
+      - name: Run update script
+        if: steps.check.outputs.update_available == 'true'
+        run: scripts/update.sh
+
+      - name: Create pull request
+        if: steps.check.outputs.update_available == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "claude-science: bump to latest upstream release"
+          title: "⬆️ claude-science: auto-update to latest release"
+          body: |
+            Automated update — upstream released a new version of Claude Science.
+
+            🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+            Co-Authored-By: Claude <noreply@anthropic.com>
+          branch: auto/claude-science-update
+          delete-branch: true
+          labels: |
+            automated
+            update

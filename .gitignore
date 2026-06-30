@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Nix build results
+result
+result-*
+
+# Backup files from update script
+package.nix.bak

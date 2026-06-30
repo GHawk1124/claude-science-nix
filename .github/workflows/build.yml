@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  pull_request: {}
+  push:
+    branches: [main, master]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Build Linux
+        run: nix build .#claude-science --no-link
+
+      - name: Smoke test
+        run: nix run .#claude-science -- --version
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Build macOS
+        run: nix build .#claude-science --no-link

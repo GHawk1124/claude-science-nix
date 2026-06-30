@@ -1,4 +1,5 @@
 {
+  bash,
   lib,
   stdenv,
   fetchurl,
@@ -46,10 +47,12 @@ stdenv.mkDerivation (finalAttrs: {
     [ makeBinaryWrapper ]
     ++ lib.optionals stdenv.isLinux [
       autoPatchelfHook
+      bash
       bubblewrap
       procps
       ripgrep
       socat
+      stdenv.cc.cc.lib
     ]
     ++ lib.optionals stdenv.isDarwin [ undmg ];
 
@@ -84,7 +87,8 @@ stdenv.mkDerivation (finalAttrs: {
 
         wrapProgram "$out/bin/claude-science" \
           --set DISABLE_AUTOUPDATER 1 \
-          --prefix PATH : "${lib.makeBinPath [ bubblewrap procps ripgrep socat ]}"
+          --prefix PATH : "${lib.makeBinPath [ bash bubblewrap procps ripgrep socat ]}" \
+          --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ stdenv.cc.cc.lib ]}"
 
         runHook postInstall
       '';

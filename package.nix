@@ -5,6 +5,11 @@
   autoPatchelfHook,
   makeBinaryWrapper,
   undmg,
+  # Runtime dependencies for Linux (sandbox networking, process tools).
+  bubblewrap,
+  procps,
+  ripgrep,
+  socat,
 }:
 
 let
@@ -39,7 +44,13 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs =
     [ makeBinaryWrapper ]
-    ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ]
+    ++ lib.optionals stdenv.isLinux [
+      autoPatchelfHook
+      bubblewrap
+      procps
+      ripgrep
+      socat
+    ]
     ++ lib.optionals stdenv.isDarwin [ undmg ];
 
   # Stripping may corrupt the embedded Bun/JavaScript trailer, same as Claude Code.
@@ -72,7 +83,8 @@ stdenv.mkDerivation (finalAttrs: {
         install -m755 "$src" "$out/bin/claude-science"
 
         wrapProgram "$out/bin/claude-science" \
-          --set DISABLE_AUTOUPDATER 1
+          --set DISABLE_AUTOUPDATER 1 \
+          --prefix PATH : "${lib.makeBinPath [ bubblewrap procps ripgrep socat ]}"
 
         runHook postInstall
       '';

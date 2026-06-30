@@ -22,14 +22,24 @@
           claude-science = pkgs.callPackage ./package.nix { };
         };
 
-        apps = {
+        apps = let
+          # Wrapper: default to 'serve' so `nix run` starts the daemon
+          # without the y/N prompt.  Passes through explicit subcommands.
+          entrypoint = pkgs.writeShellScriptBin "claude-science-entry" ''
+            if [ $# -eq 0 ]; then
+              exec ${self.packages.${system}.claude-science}/bin/claude-science serve
+            else
+              exec ${self.packages.${system}.claude-science}/bin/claude-science "$@"
+            fi
+          '';
+        in {
           default = {
             type = "app";
-            program = "${self.packages.${system}.claude-science}/bin/claude-science";
+            program = "${entrypoint}/bin/claude-science-entry";
           };
           claude-science = {
             type = "app";
-            program = "${self.packages.${system}.claude-science}/bin/claude-science";
+            program = "${entrypoint}/bin/claude-science-entry";
           };
         };
 

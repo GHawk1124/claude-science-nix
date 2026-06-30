@@ -39,13 +39,9 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "claude-science: bump to latest upstream release"
-          title: "⬆️ claude-science: auto-update to latest release"
+          title: "claude-science: auto-update to latest release"
           body: |
             Automated update: upstream released a new version of Claude Science.
-
-            🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-            Co-Authored-By: Claude <noreply@anthropic.com>
           branch: auto/claude-science-update
           delete-branch: true
           labels: |

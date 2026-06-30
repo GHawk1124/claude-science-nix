@@ -1,5 +1,5 @@
 {
-  description = "Claude Science — self-updating Nix flake for Linux and macOS";
+  description = "Claude Science: self-updating Nix flake for Linux and macOS";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

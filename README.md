@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/ghawk/claude-science-nix/actions/workflows/build.yml/badge.svg)](https://github.com/ghawk/claude-science-nix/actions/workflows/build.yml)
 
-Self-updating [Nix](https://nixos.org/) flake for [Claude Science](https://claude.com/product/claude-science) — the AI-powered scientific workbench from Anthropic. Supports **Linux x86_64** and **macOS** (Apple Silicon + Intel).
+Self-updating [Nix](https://nixos.org/) flake for [Claude Science](https://claude.com/product/claude-science), the AI-powered scientific workbench from Anthropic. Supports **Linux x86_64** and **macOS** (Apple Silicon + Intel).
 
 ## Quick start
 
@@ -79,4 +79,4 @@ A [GitHub Actions workflow](.github/workflows/update.yml) checks for new upstrea
 
 ## License
 
-The packaging code in this repository is MIT. Claude Science itself is proprietary software — see [claude.com/product/claude-science](https://claude.com/product/claude-science) for its license terms.
+The packaging code in this repository is MIT. Claude Science itself is proprietary software; see [claude.com/product/claude-science](https://claude.com/product/claude-science) for its license terms.

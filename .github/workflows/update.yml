@@ -41,7 +41,7 @@ jobs:
           commit-message: "claude-science: bump to latest upstream release"
           title: "⬆️ claude-science: auto-update to latest release"
           body: |
-            Automated update — upstream released a new version of Claude Science.
+            Automated update: upstream released a new version of Claude Science.
 
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
 

@@ -198,6 +198,16 @@ export LD_LIBRARY_PATH="${lib.makeLibraryPath [ stdenv.cc.cc.lib ]}:\$LD_LIBRARY
 export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
 export CURL_CA_BUNDLE="${cacert}/etc/ssl/certs/ca-bundle.crt"
 
+# --version and --help don't need a sandbox; skip the outer bwrap to
+# avoid "bwrap: setting up uid map: Permission denied" in containerised
+# environments (e.g. GitHub Actions runners) where user namespaces are
+# disabled.
+case "\$1" in
+  --version|-V|--help|-h)
+    exec "$out/bin/.claude-science-wrapped" "\$@"
+    ;;
+esac
+
 # Outer bubblewrap: overlay patched nix-ld, bash, and CA certificates.
 # Claude Science's inner bwrap binds /lib64, /bin, and /etc/ssl wholesale
 # into its sandboxes, so whatever we place there is visible to both

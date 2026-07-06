@@ -2,8 +2,8 @@ name: Auto-update Claude Science
 
 on:
   schedule:
-    # Run every 30 minutes to catch new releases quickly.
-    - cron: '*/30 * * * *'
+    # Run daily at 7:41 AM UTC to catch new releases.
+    - cron: '41 7 * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -14,11 +14,11 @@ jobs:
   check-and-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: DeterminateSystems/nix-installer-action@v16
+      - uses: DeterminateSystems/nix-installer-action@v21
 
-      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Check for updates
         id: check
@@ -36,8 +36,9 @@ jobs:
 
       - name: Create pull request
         if: steps.check.outputs.update_available == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "claude-science: bump to latest upstream release"
           title: "claude-science: auto-update to latest release"
           body: |

@@ -31,7 +31,7 @@
 }:
 
 let
-  version = "0.1.0-dev.20260630.t212931.sha2bc1ac8";
+  version = "0.1.71";
 
   baseUrl = "https://downloads.claude.ai/claude-science/latest";
 
@@ -117,15 +117,15 @@ let
   srcs = {
     "x86_64-linux" = fetchurl {
       url = "${baseUrl}/linux-x64";
-      hash = "sha256-0Tdxuk6FyCfvSEdy0tUEWy2v/5Si1WnWVRDpN1+OKwY=";
+      hash = "sha256-FSYddHBkrkmhJNnkFrDJ4sHXgoWgsrBFNNOU2SKxI1U=";
     };
     "aarch64-darwin" = fetchurl {
       url = "${baseUrl}/mac-arm64.dmg";
-      hash = "sha256-qw78WcVgvSG7HQSSWY9YiQa0Gmn/XiAL0HfYFqxLwvg=";
+      hash = "sha256-jM/SV4AK6GpdQLLkv38uqbCqemEGqwzbRQa5cSDEJvM=";
     };
     "x86_64-darwin" = fetchurl {
       url = "${baseUrl}/mac-x64.dmg";
-      hash = "sha256-hWOHYAUa4th2T2a1iekflbEtO+QyPztHTNiY5VtAc98=";
+      hash = "sha256-x+NYi16nwQIrriOhoI4ErCBtFaL2QUhULRGakaWkfbM=";
     };
   };
 in
